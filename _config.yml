@@ -27,3 +27,7 @@ exclude:
   - install.sh
   - Gemfile
   - Gemfile.lock
+  - CLAUDE.md
+  - methodology.md
+  - LICENSE
+  - project-templates/

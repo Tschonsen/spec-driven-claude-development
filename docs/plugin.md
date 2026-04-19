@@ -48,7 +48,7 @@ The two audits do not overlap: `audit` reads plans only, `milestone-audit` reads
 |---|---|
 | `/sdcd:adopt` | Scan an existing repo, scaffold `design/`, reverse-engineer an Ur-Plan stub from README + git-log + code-evidence |
 
-`adopt` is **additive only** — it never modifies existing files. If your project already has a `CLAUDE.md`, the skill proposes a diff for you to merge manually rather than overwriting. See the [retrofit guide]({% link docs/adopt.md %}).
+`adopt` is **additive only** — it never modifies existing files. If your project already has a `CLAUDE.md`, the skill proposes a diff for you to merge manually rather than overwriting. See the [retrofit guide]({{ '/adopt' | relative_url }}).
 
 ### Session management
 
@@ -108,7 +108,7 @@ Each archetype ships a `CLAUDE.md`, `UR_PLAN.md`, `CURRENT_STATE.md` (and `ARCHI
 
 `/sdcd:new-project` picks the closest match based on user intent and stack hints. You can override or adapt the template after scaffolding — the archetype just saves typing for the common case.
 
-See the [archetype guide]({% link docs/archetypes.md %}) for detail on when to pick which.
+See the [archetype guide]({{ '/archetypes' | relative_url }}) for detail on when to pick which.
 
 ---
 

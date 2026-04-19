@@ -12,7 +12,7 @@ permalink: /
 Keep Claude Code sessions coherent across days, weeks, and projects — with five rules, ten skills, eight challenger subagents, and a plugin bundle that enforces them.
 {: .fs-5 .fw-300 }
 
-[Install]({% link docs/install.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Install]({{ '/install' | relative_url }}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [View on GitHub](https://github.com/Tschonsen/spec-driven-claude-development){: .btn .fs-5 }
 
 ---
@@ -45,7 +45,7 @@ A single file at `~/.claude/CLAUDE.md` that Claude loads in every session. Cover
 - **State hygiene** — tier-based state-file discipline.
 - **Brain files** — per-file summaries that save context budget on large repos.
 
-Small, opinionated, battle-tested. [Read the methodology →]({% link docs/methodology.md %})
+Small, opinionated, battle-tested. [Read the methodology →]({{ '/methodology' | relative_url }})
 
 ### The `sdcd` plugin (opt-in)
 
@@ -55,7 +55,7 @@ A Claude Code plugin that operationalises the methodology as slash-commands and 
 - **8 subagents** — a five-lens challenger pool (security / performance / maintainability / UX / accessibility), a test designer, a code reviewer, and a plan-drift detector.
 - **4 project archetypes** — CLI, web-service, library, full-stack — each with pre-shaped templates.
 
-Install the plugin once; drive new projects from zero-to-shippable with `/sdcd:*` commands. [Explore the plugin →]({% link docs/plugin.md %})
+Install the plugin once; drive new projects from zero-to-shippable with `/sdcd:*` commands. [Explore the plugin →]({{ '/plugin' | relative_url }})
 
 ---
 
@@ -79,7 +79,7 @@ User: "New project: messenger service for small teams"
 /sdcd:milestone-audit       → after each milestone, verify code matches plan
 ```
 
-Smaller projects skip what doesn't apply. CLI tools don't need a design system. Libraries don't need a data plan. Static sites don't need a backend. [See examples →]({% link docs/examples.md %})
+Smaller projects skip what doesn't apply. CLI tools don't need a design system. Libraries don't need a data plan. Static sites don't need a backend. [See examples →]({{ '/examples' | relative_url }})
 
 ---
 
@@ -89,7 +89,7 @@ Smaller projects skip what doesn't apply. CLI tools don't need a design system. 
 /sdcd:adopt
 ```
 
-Scans the repo, detects stack and size, scaffolds a `design/` layout, and **reverse-engineers an Ur-Plan stub** from your existing README, git log, and code. Additive only — never modifies existing files. [Retrofit guide →]({% link docs/adopt.md %})
+Scans the repo, detects stack and size, scaffolds a `design/` layout, and **reverse-engineers an Ur-Plan stub** from your existing README, git log, and code. Additive only — never modifies existing files. [Retrofit guide →]({{ '/adopt' | relative_url }})
 
 ---
 
@@ -119,8 +119,8 @@ A few ideas the framework leans on:
 
 ## Get started
 
-1. [Install the core rules and plugin →]({% link docs/install.md %})
+1. [Install the core rules and plugin →]({{ '/install' | relative_url }})
 2. Pick a flow:
    - New project: `/sdcd:new-project` and follow the prompts.
    - Existing project: `/sdcd:adopt` to retrofit.
-3. [Read the full methodology →]({% link docs/methodology.md %}) when you want the detail.
+3. [Read the full methodology →]({{ '/methodology' | relative_url }}) when you want the detail.
