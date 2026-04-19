@@ -18,7 +18,7 @@ SDCD is a small set of files plus a written methodology that together give Claud
 - **`~/.claude/CLAUDE.md`** — core rules (context hygiene, decision tiers, code quality, plan-vs-code alignment, state hygiene, brain files). Loaded in every session automatically.
 - **`~/.claude/methodology.md`** — the detailed procedures referenced from `CLAUDE.md`. Loaded on demand (project start, audits, planning steps).
 - **`project-templates/`** — starter files for a new project (project-level `CLAUDE.md`, `CURRENT_STATE.md`, `ARCHITECTURE.md`).
-- **`plugin/sdcd/`** — Claude Code plugin that operationalises the methodology as namespaced slash-commands (`/sdcd:new-project`, `/sdcd:data-plan`, `/sdcd:backend-plan`, `/sdcd:design-system-plan`, `/sdcd:frontend-plan`, `/sdcd:audit`, `/sdcd:adopt`, `/sdcd:session-start`, `/sdcd:session-end`, `/sdcd:auto-brain`) plus specialised subagents (challenger trio, test-designer, reviewer, plan-drift-detector). Install-guide: `plugin/sdcd/README.md`.
+- **`plugin/sdcd/`** — Claude Code plugin that operationalises the methodology as namespaced slash-commands (`/sdcd:new-project`, `/sdcd:data-plan`, `/sdcd:backend-plan`, `/sdcd:design-system-plan`, `/sdcd:frontend-plan`, `/sdcd:audit`, `/sdcd:milestone-audit`, `/sdcd:adopt`, `/sdcd:session-start`, `/sdcd:session-end`, `/sdcd:auto-brain`) plus specialised subagents (challenger pentet incl. UX + a11y, test-designer, reviewer, plan-drift-detector). Project archetypes: `cli`, `web-service`, `library`, `full-stack`. Install-guide: `plugin/sdcd/README.md`.
 
 The rules are opinionated but not dogmatic: TDD by default with documented exceptions, three tiers of decision autonomy based on blast radius, state-file hygiene that scales from "none for an ad-hoc script" to "full set for a multi-month project."
 
@@ -28,7 +28,7 @@ The rules are opinionated but not dogmatic: TDD by default with documented excep
 - **§2–§7 Methodology Detail** — Drafted in English, will be refined as real projects expose gaps.
 - **Project templates** — Minimal but functional.
 - **Installer scripts** — Working for Windows (PowerShell) and Unix (bash).
-- **`plugin/sdcd/`** — Claude Code plugin with 10 skills (planning × 5 including data-plan & design-system-plan, lifecycle × 3, auto-brain, adopt for retrofit into existing projects) + 6 agents. Early access, testable via `claude --plugin-dir`.
+- **`plugin/sdcd/`** — Claude Code plugin with 11 skills (planning × 5, two audit types, adopt for retrofit, 3 lifecycle skills) + 8 subagents (5-lens challenger pool incl. UX + a11y, test-designer, reviewer, drift-detector) + 4 project archetypes (cli, web-service, library, full-stack). Early access, testable via `claude --plugin-dir`.
 
 This is an early-access repository. Expect edits.
 

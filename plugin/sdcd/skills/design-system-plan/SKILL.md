@@ -15,6 +15,16 @@ Do **not** use this skill:
 - When the project will use an off-the-shelf design system verbatim (e.g., "100% shadcn defaults, no customisation"). Declare that in the project CLAUDE.md and skip to frontend-plan.
 - To re-theme an existing app — that's a refactor task, not a planning one.
 
+## Depth by project size
+
+The full output below is aimed at serious UI-driven products. Scale down honestly:
+
+- **Small tool, single screen, internal use:** fill only `## Target feel`, `## Colour palette`, `## Typography`. Skip the rest or mark `_Not applicable at this size._`. Running the full 10-section template on a 2-page internal admin is overkill.
+- **Medium product, several screens:** add `## Spacing scale`, `## Shapes & radius`, `## Component visual language`, `## Accessibility baseline`.
+- **Public / multi-surface product:** fill everything including `## Motion`, `## Iconography`, `## Tokens (naming)`, and the explicit dark-mode stance.
+
+This is a trim at draft time, not a permission to skip mandatory items — `## Accessibility baseline` is non-optional for any user-facing product.
+
 ## Procedure
 
 ### Step 1 — Load upstream context
@@ -140,13 +150,15 @@ Names are suggestions; the project picks the exact shape but stays consistent on
 Design unknowns needing user or external design review.
 ```
 
-### Step 4 — Dispatch challenger trio
+### Step 4 — Dispatch challenger trio (design-specific lenses)
 
-- `challenger-security` — often light here, but check: colour-only signalling (fails for colour-blind users who also happen to be adversaries of your support model); animation-triggered seizure risks.
-- `challenger-performance` — bundle-size risk of chosen typefaces / icon libraries, motion that triggers layout thrashing, shadow/filter-heavy designs.
-- `challenger-maintainability` — token naming conventions that'll drift (too specific, e.g., `color.header.top`), too many variants per component, escape hatches that'll multiply.
+For design-system work, the standard security/performance combo is less useful than UX + accessibility. Dispatch:
 
-Synthesise into `## Challenger pushback`.
+- `challenger-ux` — target-feel coherence, component states, feedback / empty / first-time-experience patterns.
+- `challenger-accessibility` — contrast numbers vs mandate, focus-ring spec, colour-as-signal, motion/reduced-motion, typography legibility.
+- `challenger-maintainability` — token naming that'll drift, too many component variants, escape hatches that'll multiply.
+
+Synthesise into `## Challenger pushback`. If the project has strong security or performance implications for visuals (e.g., 3rd-party typeface hosting, CSS injection surface), additionally dispatch `challenger-security` and `challenger-performance`.
 
 ### Step 5 — Present & pause
 

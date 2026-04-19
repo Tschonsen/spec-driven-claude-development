@@ -23,7 +23,7 @@ When a project is worth running under SDCD (anything multi-session, serious, or 
 
 ### §2.1 The Ur-Plan Artifact
 
-Every SDCD project starts with an **Ur-Plan** — a foundational plan document that captures what the project is before the code exists. It lives in the project's spec directory as `UR_PLAN.md` (or under `design/UR_PLAN.md`, consistent with the project's state-file layout).
+Every SDCD project starts with an **Ur-Plan** — a foundational plan document that captures what the project is before the code exists. It lives at `design/UR_PLAN.md` alongside the other state files.
 
 Required sections:
 

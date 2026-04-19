@@ -27,7 +27,7 @@ Use read-only commands to inventory:
 
 - Stack markers: `pyproject.toml`, `package.json`, `Cargo.toml`, `go.mod`, `pom.xml`, `build.gradle` (there may be several — monorepo).
 - Existing docs: `README.md`, `CONTRIBUTING.md`, any `docs/` directory, any `ADR*.md` files.
-- Existing SDCD-like files: `CLAUDE.md`, `design/`, `.spec/`, `AGENTS.md`.
+- Existing SDCD-like files: `CLAUDE.md`, `design/`, `AGENTS.md`.
 - Test setup: `tests/`, `__tests__/`, `*_test.go`, etc.
 - CI: `.github/workflows/`, `.gitlab-ci.yml`, CI config present or absent.
 - Git history depth: `git log --oneline | wc -l` to gauge project maturity.

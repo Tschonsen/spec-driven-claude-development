@@ -68,13 +68,15 @@ Collect every `## Open questions` section across all three plans. List them in o
 - **Defer:** can be decided during implementation without re-planning.
 - **External:** needs user input or third party (design review, business decision).
 
-### Step 5 — Dispatch challenger trio — cross-cutting pass
+### Step 5 — Dispatch challengers — cross-cutting pass
 
-Different from earlier passes: challengers now see **all three plans at once** and focus on cross-document issues, not intra-document ones.
+Different from earlier passes: challengers now see **all applicable plans at once** and focus on cross-document issues. Dispatch the full lens set (skip UX/A11y only if the project is backend-only):
 
 - `challenger-security` — auth/data flow end-to-end, trust boundaries at each layer transition.
 - `challenger-performance` — latency budget across the stack, N+1 that only appears when frontend + backend are combined.
 - `challenger-maintainability` — whether this design will survive the first 3 months of real use, cross-doc ownership gaps.
+- `challenger-ux` (if UI present) — end-to-end flow from user goal to backend capability; dead-ends where a goal isn't reachable.
+- `challenger-accessibility` (if UI present) — mandate stated in Ur-Plan matches Design-System contrast + Frontend keyboard coverage; single unified target or drift across docs.
 
 ### Step 6 — Verdict
 

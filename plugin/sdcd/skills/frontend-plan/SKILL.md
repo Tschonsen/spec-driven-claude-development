@@ -86,15 +86,16 @@ Which breakpoints matter for this product. Not "mobile/tablet/desktop" abstractl
 Frontend unknowns needing external input or design review.
 ```
 
-### Step 3 — Dispatch challenger trio
+### Step 3 — Dispatch challenger quartet (frontend-specific)
 
-Point at `FRONTEND_PLAN.md`:
+Frontend touches security, performance, and UX simultaneously — and a11y is ground-zero here. Dispatch four, not three:
 
 - `challenger-security` — XSS surfaces, auth-token storage, client-side validation trusted as source-of-truth.
 - `challenger-performance` — waterfall fetches, bundle size implications of stack choice, render-blocking patterns.
-- `challenger-maintainability` — component tree that won't scale, state duplicated across layers, design-token escape hatches.
+- `challenger-ux` — route list vs user goals, loading/error/empty/success coverage, form UX, destructive-action patterns, first-time experience.
+- `challenger-accessibility` — keyboard coverage, focus management in modals, form-label associations, live-region announcements, colour-as-signal check.
 
-Synthesise into a single `## Challenger pushback` section at the bottom of `FRONTEND_PLAN.md`.
+Four reports come back. Synthesise into a single `## Challenger pushback` section — prioritise the top 5 concerns across all four lenses, not 5 per lens.
 
 ### Step 4 — Present & pause
 

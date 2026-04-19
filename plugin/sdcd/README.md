@@ -8,7 +8,8 @@ A Claude Code plugin that bundles the SDCD methodology into actionable skills an
 /sdcd:backend-plan          → Backend plan (references Data-Plan if present)
 /sdcd:design-system-plan    → Visual direction, tokens, component language
 /sdcd:frontend-plan         → Frontend plan (references Design-System + Backend)
-/sdcd:audit                 → Cross-cutting gate over all applicable plans
+/sdcd:audit                 → Pre-implementation gate over all applicable plans
+/sdcd:milestone-audit       → Mid-implementation check after a milestone completes
 /sdcd:adopt                 → Bootstrap SDCD into an existing, running project
 /sdcd:session-start         → Onboard a fresh session cheaply
 /sdcd:session-end           → Persist state + refresh brain files
@@ -17,9 +18,10 @@ A Claude Code plugin that bundles the SDCD methodology into actionable skills an
 
 Plus specialised subagents that the skills dispatch on their own:
 
-- **`challenger-security`** / **`challenger-performance`** / **`challenger-maintainability`** — three independent reviewers that push back on planning documents.
+- **`challenger-security`** / **`challenger-performance`** / **`challenger-maintainability`** — core lens trio, dispatched by `new-project`, `data-plan`, `backend-plan`, and the cross-cutting pass in `audit`.
+- **`challenger-ux`** / **`challenger-accessibility`** — UI-specific lenses, dispatched by `design-system-plan`, `frontend-plan`, and `audit` when UI is in scope.
 - **`test-designer`** — writes the test plan *before* implementation starts (outside-in TDD).
-- **`sdcd-reviewer`** — solo-dev stand-in reviewer for post-commit checks.
+- **`sdcd-reviewer`** — solo-dev stand-in reviewer for post-commit checks. Focuses on §1 compliance + code-quality; drift-vs-plan is delegated to `plan-drift-detector` for clean separation.
 - **`plan-drift-detector`** — enforces §1.4 mechanically; halts when code diverges from the plan.
 
 ## Prerequisites
@@ -120,16 +122,26 @@ The Ur-Plan stub is **reverse-engineered** from README + git log + code evidence
 
 | Skill | Reads | Writes / updates |
 |---|---|---|
-| `new-project` | (user intent) | `design/UR_PLAN.md`, `design/CURRENT_STATE.md`, `design/` scaffolding |
+| `new-project` | (user intent) | `design/UR_PLAN.md`, `design/CURRENT_STATE.md`, `design/` scaffolding from `plugin/sdcd/templates/<archetype>/` |
 | `data-plan` | `UR_PLAN.md` | `design/DATA_PLAN.md` |
 | `backend-plan` | `UR_PLAN.md`, `DATA_PLAN.md` (if present) | `design/BACKEND_PLAN.md` |
 | `design-system-plan` | `UR_PLAN.md` | `design/DESIGN_SYSTEM.md` |
 | `frontend-plan` | `UR_PLAN.md`, `BACKEND_PLAN.md`, `DESIGN_SYSTEM.md` (if present) | `design/FRONTEND_PLAN.md` |
 | `audit` | all applicable plans | `design/AUDIT.md` |
+| `milestone-audit` | plan sections of the milestone + code + state files | `design/AUDIT_LOG.md` (appends), `CURRENT_STATE.md` |
 | `adopt` | existing repo state | additive scaffolding + Ur-Plan stub, no modifications |
 | `session-start` | `CURRENT_STATE.md`, active plan section, brain files | (nothing — onboarding only) |
 | `session-end` | git diff, plans | `CURRENT_STATE.md`, `SESSION_HISTORY.md` (if present), refreshes `.brain` files |
 | `auto-brain` | source file | `<source>.brain` |
+
+### Available project archetypes (templates/)
+
+- `cli/` — command-line tools. Tier-Serious default.
+- `web-service/` — backend services. Tier-Larger default. Assumes persistent data.
+- `library/` — reusable packages. Tier-Serious, emphasises semver + brain-file coverage.
+- `full-stack/` — frontend + backend products. Tier-Larger default, full 5-plan pipeline.
+
+Add new archetypes as needed; `/sdcd:new-project` picks the closest match based on user intent.
 
 ## Opting out
 

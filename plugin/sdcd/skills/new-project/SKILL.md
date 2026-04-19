@@ -1,6 +1,6 @@
 ---
 name: new-project
-description: Drive the Ur-Plan phase for a brand-new project. Use when the user says "new project X" or "let's plan X from scratch". Produces `design/UR_PLAN.md` with goal/non-goals/success-criteria/stack/milestones/open-questions, scaffolds the `.spec/` layout for the declared tier, then dispatches the three challenger subagents (security / performance / maintainability) to push back before anything is written to code.
+description: Drive the Ur-Plan phase for a brand-new project. Use when the user says "new project X" or "let's plan X from scratch". Produces `design/UR_PLAN.md` with goal/non-goals/success-criteria/stack/milestones/open-questions, scaffolds the `design/` layout for the declared tier, then dispatches the three challenger subagents (security / performance / maintainability) to push back before anything is written to code.
 ---
 
 # new-project
@@ -71,9 +71,17 @@ Explicit unknowns. These will drive the challenger review and the backend/fronte
 
 Keep it short — a 1-page Ur-Plan is better than a 10-page one. Unknowns belong in **Open questions**, not padded into other sections.
 
-### Step 4 — Scaffold the `.spec/` (or `design/`) layout
+### Step 4 — Scaffold the `design/` layout
 
-Create the directory structure matching the declared tier. Use `methodology.md §2.2` tier templates.
+Create the directory structure matching the declared tier:
+
+- **Serious project:** `design/UR_PLAN.md`, `design/CURRENT_STATE.md`.
+- **Larger:** add `design/ARCHITECTURE.md`.
+- **Milestone-driven:** add `design/SESSION_HISTORY.md` and `design/AUDIT_LOG.md`.
+
+Copy the archetype template from `plugin/sdcd/templates/<archetype>/` into the project root. Pick the archetype that matches the user's project kind — `cli`, `web-service`, `library`, or `full-stack`. If none fits precisely, use the closest and adapt.
+
+Substitute `{{project_name}}`, `{{stack}}`, `{{today}}` while copying.
 
 ### Step 5 — Dispatch the challenger trio
 
