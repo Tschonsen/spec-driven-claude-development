@@ -1,4 +1,29 @@
 title: Spec-Driven Claude Development
 description: A methodology framework for collaborating with Claude on software projects — without losing the plot between sessions.
-theme: jekyll-theme-cayman
+remote_theme: just-the-docs/just-the-docs
+url: https://tschonsen.github.io
+baseurl: /spec-driven-claude-development
 show_downloads: false
+
+color_scheme: light
+search_enabled: true
+heading_anchors: true
+aux_links:
+  "GitHub":
+    - "https://github.com/Tschonsen/spec-driven-claude-development"
+aux_links_new_tab: true
+
+footer_content: "SDCD is MIT-licensed. Built by <a href='https://github.com/Tschonsen'>Tschonsen</a> with Claude as co-author."
+
+ga_tracking_anonymize_ip: true
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+
+exclude:
+  - plugin/
+  - install.ps1
+  - install.sh
+  - Gemfile
+  - Gemfile.lock
