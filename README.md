@@ -4,6 +4,11 @@
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Status](https://img.shields.io/badge/status-early--access-orange.svg)
+[![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://tschonsen.github.io/spec-driven-claude-development/)
+
+**📖 Full documentation: [tschonsen.github.io/spec-driven-claude-development](https://tschonsen.github.io/spec-driven-claude-development/)**
+
+---
 
 ## The Problem
 
@@ -13,26 +18,38 @@ The usual answer is to write a `CLAUDE.md` with the rules. That works for small 
 
 ## What SDCD Is
 
-SDCD is a small set of files plus a written methodology that together give Claude consistent, enforceable context across every session:
+SDCD ships in two complementary layers. Use either, use both.
 
-- **`~/.claude/CLAUDE.md`** — core rules (context hygiene, decision tiers, code quality, plan-vs-code alignment, state hygiene, brain files). Loaded in every session automatically.
-- **`~/.claude/methodology.md`** — the detailed procedures referenced from `CLAUDE.md`. Loaded on demand (project start, audits, planning steps).
-- **`project-templates/`** — starter files for a new project (project-level `CLAUDE.md`, `CURRENT_STATE.md`, `ARCHITECTURE.md`).
-- **`plugin/sdcd/`** — Claude Code plugin that operationalises the methodology as namespaced slash-commands (`/sdcd:new-project`, `/sdcd:data-plan`, `/sdcd:backend-plan`, `/sdcd:design-system-plan`, `/sdcd:frontend-plan`, `/sdcd:audit`, `/sdcd:milestone-audit`, `/sdcd:adopt`, `/sdcd:session-start`, `/sdcd:session-end`, `/sdcd:auto-brain`) plus specialised subagents (challenger pentet incl. UX + a11y, test-designer, reviewer, plan-drift-detector). Project archetypes: `cli`, `web-service`, `library`, `full-stack`. Install-guide: `plugin/sdcd/README.md`.
+### Layer 1 — Core rules (always on)
 
-The rules are opinionated but not dogmatic: TDD by default with documented exceptions, three tiers of decision autonomy based on blast radius, state-file hygiene that scales from "none for an ad-hoc script" to "full set for a multi-month project."
+Two files that the installer drops into `~/.claude/`:
+
+- **`CLAUDE.md`** — §1 core rules. Loaded automatically in every Claude Code session. Covers context hygiene, decision tiers, code quality, plan-vs-code alignment, state hygiene, and brain files.
+- **`methodology.md`** — §2–§7 detailed procedures. Loaded on demand (project start, audits, planning steps).
+
+Small, opinionated, battle-tested. See the [methodology page](https://tschonsen.github.io/spec-driven-claude-development/methodology) for the full text.
+
+### Layer 2 — The `sdcd` Claude Code plugin (opt-in)
+
+A plugin at `plugin/sdcd/` that operationalises the methodology:
+
+- **11 skills** — namespaced as `/sdcd:new-project`, `/sdcd:data-plan`, `/sdcd:backend-plan`, `/sdcd:design-system-plan`, `/sdcd:frontend-plan`, `/sdcd:audit`, `/sdcd:milestone-audit`, `/sdcd:adopt`, `/sdcd:session-start`, `/sdcd:session-end`, `/sdcd:auto-brain`.
+- **8 subagents** — a five-lens challenger pool (security / performance / maintainability / UX / accessibility), `test-designer`, `sdcd-reviewer`, `plan-drift-detector`.
+- **4 project archetypes** — `cli`, `web-service`, `library`, `full-stack`. Each with pre-shaped templates.
+
+See the [plugin page](https://tschonsen.github.io/spec-driven-claude-development/plugin) for the full catalogue, or jump straight to [install instructions](https://tschonsen.github.io/spec-driven-claude-development/install).
 
 ## Status
 
 - **§1 Core Rules** — Stable, in active use. §1.6 (brain files) added 2026-04-19.
 - **§2–§7 Methodology Detail** — Drafted in English, will be refined as real projects expose gaps.
-- **Project templates** — Minimal but functional.
+- **Project templates** — Minimal but functional, at the root (`project-templates/`) and inside the plugin (`plugin/sdcd/templates/`).
 - **Installer scripts** — Working for Windows (PowerShell) and Unix (bash).
-- **`plugin/sdcd/`** — Claude Code plugin with 11 skills (planning × 5, two audit types, adopt for retrofit, 3 lifecycle skills) + 8 subagents (5-lens challenger pool incl. UX + a11y, test-designer, reviewer, drift-detector) + 4 project archetypes (cli, web-service, library, full-stack). Early access, testable via `claude --plugin-dir`.
+- **`plugin/sdcd/`** — 11 skills + 8 subagents + 4 archetypes. Early access, testable via `claude --plugin-dir`.
 
 This is an early-access repository. Expect edits.
 
-## Install
+## Quick install
 
 ### Windows (PowerShell)
 
@@ -50,40 +67,81 @@ cd spec-driven-claude-development
 ./install.sh
 ```
 
-The installer:
-- Backs up any existing `~/.claude/CLAUDE.md` or `~/.claude/methodology.md` to `.bak` files.
-- Copies `CLAUDE.md` and `methodology.md` into `~/.claude/`.
-- Does **not** touch project-specific files. Each project is still free to add its own `<project>/CLAUDE.md`.
+The installer backs up any existing `~/.claude/CLAUDE.md` or `~/.claude/methodology.md` to `.bak` files, then copies the SDCD core rules into `~/.claude/`.
 
-## Using It
+### Plugin install
 
-1. **Install** (see above) so the core rules load in every Claude Code session.
-2. **When starting a new project**, copy `project-templates/CLAUDE.md.template` into your project root and fill in the stack and gotchas. Create `design/CURRENT_STATE.md` from the template. Add `design/ARCHITECTURE.md` once the project has enough files to warrant one.
-3. **Write an Ur-Plan** (`design/UR_PLAN.md`) before substantial implementation — see methodology §2.1.
-4. **Run mini-audits** after each feature (§5.1) and a milestone audit at each phase boundary (§5.2).
+Once the core rules are live, try the plugin locally:
 
-None of this is magic. It is a discipline that costs ~5 extra minutes per session and keeps the project recoverable when Claude (or you) returns after a week away.
+```bash
+claude --plugin-dir plugin/sdcd
+```
 
-## File Layout
+When satisfied, install it persistently:
+
+```bash
+claude plugin install ./plugin/sdcd
+```
+
+Full install + verify guide: [tschonsen.github.io/spec-driven-claude-development/install](https://tschonsen.github.io/spec-driven-claude-development/install).
+
+## Using it — two flows
+
+### New project
+
+```
+/sdcd:new-project           → Ur-Plan + 3-challenger trio review
+/sdcd:data-plan             → Data model, storage, indexes
+/sdcd:backend-plan          → API contract (references Data-Plan)
+/sdcd:design-system-plan    → Visual direction, tokens, component language
+/sdcd:frontend-plan         → Routes, components, state (4-challenger quartet)
+/sdcd:audit                 → GO / NO-GO gate over all applicable plans
+
+/sdcd:session-start         → onboard each work session cheaply
+                              <implementation under §1 rules>
+/sdcd:session-end           → persist state + refresh brain files
+/sdcd:milestone-audit       → verify code matches plan after each milestone
+```
+
+Smaller projects skip what doesn't apply. CLI tools don't need a design system; libraries don't need a data plan. See [Examples](https://tschonsen.github.io/spec-driven-claude-development/examples) for a full walk-through.
+
+### Existing project
+
+```
+/sdcd:adopt
+```
+
+Scans the repo, detects stack and size, scaffolds a `design/` layout, and **reverse-engineers an Ur-Plan stub** from your existing README + git log + code. Additive only — never modifies existing files. [Retrofit guide](https://tschonsen.github.io/spec-driven-claude-development/adopt).
+
+## File layout
 
 ```
 spec-driven-claude-development/
-├── CLAUDE.md                          # User-level core rules (→ ~/.claude/CLAUDE.md)
-├── methodology.md                     # Detailed procedures (→ ~/.claude/methodology.md)
+├── CLAUDE.md                          # User-level core rules → ~/.claude/CLAUDE.md
+├── methodology.md                     # Detailed procedures → ~/.claude/methodology.md
 ├── install.ps1                        # Windows installer
 ├── install.sh                         # Unix installer
-└── project-templates/
-    ├── CLAUDE.md.template             # Project-level CLAUDE.md starter
-    ├── CURRENT_STATE.md.template
-    └── ARCHITECTURE.md.template
+├── project-templates/                 # Starter files for new projects
+├── plugin/
+│   └── sdcd/
+│       ├── .claude-plugin/plugin.json
+│       ├── skills/                    # 11 named skills
+│       ├── agents/                    # 8 subagents
+│       ├── templates/                 # 4 project archetypes
+│       └── README.md
+├── docs/                              # GitHub Pages content (Jekyll, just-the-docs)
+├── index.md                           # Pages landing
+└── _config.yml                        # Pages config
 ```
 
-## Customizing
+## Customising
 
-SDCD is opinionated, but it is not yours until you fork it. Two paths:
+SDCD is opinionated, but it is not yours until you fork it.
 
 - **Fork and edit** — clone your own copy, change rules to match your style, install from your fork.
 - **Project-level overrides** — keep the user-level SDCD as-is, override specific rules in `<project>/CLAUDE.md` (per §1.5, projects declare their own state-file tier and may override other §1 rules with a reason).
+- **Add archetypes** — drop a new directory under `plugin/sdcd/templates/<name>/` following the shape of the existing ones.
+- **Add challenger lenses** — drop a new `challenger-<lens>.md` under `plugin/sdcd/agents/` and update the skill procedures that should dispatch it.
 
 ## Philosophy
 
@@ -93,14 +151,15 @@ A few ideas the framework leans on:
 - **Plans are living documents, not archaeology.** They get updated in the same commits as the code they describe. Stale plans are worse than no plans.
 - **Duplication is cheaper than the wrong abstraction.** Patience before extracting pays off.
 - **State hygiene scales with stakes.** A one-shot script needs nothing; a portfolio-grade project needs the full set.
+- **Challenger voices belong outside the author.** Security, performance, maintainability, UX, accessibility — concerns come from subagents that didn't write the plan. Independent review is cheaper when the reviewer literally cannot see the author's reasoning.
 
-## Relation to Existing Practice
+## Relation to existing practice
 
-SDCD is not an alternative to TDD, DDD, or Clean Architecture. It is scaffolding that makes those practices sustainable when one of the collaborators is an LLM with no memory between sessions. See methodology.md Appendix for details.
+SDCD is not an alternative to TDD, DDD, or Clean Architecture. It is scaffolding that makes those practices sustainable when one of the collaborators is an LLM with no memory between sessions.
 
 ## Contributing
 
-SDCD is one person's methodology crystallized. Pull requests are welcome, but the easier path for disagreement is a fork — your workflow is yours, and SDCD is more useful as a reference point than as a mandate.
+SDCD is one person's methodology crystallised. Pull requests are welcome, but the easier path for disagreement is a fork — your workflow is yours, and SDCD is more useful as a reference point than as a mandate.
 
 ## License
 
@@ -108,4 +167,4 @@ MIT — see [`LICENSE`](LICENSE).
 
 ---
 
-Built by [Tschonsen](https://github.com/Tschonsen).
+Built by [Tschonsen](https://github.com/Tschonsen) with Claude as co-author.
