@@ -46,3 +46,13 @@ State hygiene scales with project size:
 - **Large project with milestones:** additionally a **Session-History file** (on-demand) and an **Audit-Log file** (appended after milestone audits).
 
 Which files a project uses is declared in the project's `CLAUDE.md`.
+
+### §1.6 Brain Files
+
+For every source file Claude creates or substantially edits in an SDCD project, write a companion `<file>.brain` summary. Brain files let the next reader (Claude or human) grasp a file's purpose, exports, and gotchas without opening the source — saving context budget, especially on large repos.
+
+- **Format:** YAML frontmatter (`source`, `source_hash`, `model`, `generated_at`) + five fixed sections in order: `## Purpose`, `## Key exports`, `## Collaborators`, `## Gotchas`, `## Conventions`. Empty section: write `_None._` on its own line.
+- **Hash gate:** `source_hash` is content-only SHA256. Whitespace-only edits do not trigger regeneration.
+- **Skip:** files under ~10 non-whitespace chars, generated/vendored code, text/docs.
+- **Tooling:** if the session has a CodeBrain MCP server (`codebrain_scan_file` available), prefer it — it has a retry/validate loop. Otherwise follow the inline procedure in the `auto-brain` skill.
+- **Opt-out:** projects that explicitly declare "no brain files" in their `CLAUDE.md` are exempt.

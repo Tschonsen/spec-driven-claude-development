@@ -1,0 +1,8 @@
+{
+  "name": "sdcd",
+  "version": "0.1.0",
+  "description": "Spec-Driven Claude Development — plugin bundle of planning skills, challenger subagents, and implementation guardrails. Invokable as /sdcd:<skill>.",
+  "author": "Tschonsen",
+  "repository": "https://github.com/Tschonsen/spec-driven-claude-development",
+  "license": "MIT"
+}

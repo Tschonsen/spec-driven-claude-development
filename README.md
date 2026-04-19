@@ -15,18 +15,20 @@ The usual answer is to write a `CLAUDE.md` with the rules. That works for small 
 
 SDCD is a small set of files plus a written methodology that together give Claude consistent, enforceable context across every session:
 
-- **`~/.claude/CLAUDE.md`** — core rules (context hygiene, decision tiers, code quality, plan-vs-code alignment, state hygiene). Loaded in every session automatically.
+- **`~/.claude/CLAUDE.md`** — core rules (context hygiene, decision tiers, code quality, plan-vs-code alignment, state hygiene, brain files). Loaded in every session automatically.
 - **`~/.claude/methodology.md`** — the detailed procedures referenced from `CLAUDE.md`. Loaded on demand (project start, audits, planning steps).
 - **`project-templates/`** — starter files for a new project (project-level `CLAUDE.md`, `CURRENT_STATE.md`, `ARCHITECTURE.md`).
+- **`plugin/sdcd/`** — Claude Code plugin that operationalises the methodology as namespaced slash-commands (`/sdcd:new-project`, `/sdcd:backend-plan`, `/sdcd:frontend-plan`, `/sdcd:audit`, `/sdcd:session-start`, `/sdcd:session-end`, `/sdcd:auto-brain`) plus specialised subagents (challenger trio, test-designer, reviewer, plan-drift-detector). Install-guide: `plugin/sdcd/README.md`.
 
 The rules are opinionated but not dogmatic: TDD by default with documented exceptions, three tiers of decision autonomy based on blast radius, state-file hygiene that scales from "none for an ad-hoc script" to "full set for a multi-month project."
 
 ## Status
 
-- **§1 Core Rules** — Stable, in active use.
+- **§1 Core Rules** — Stable, in active use. §1.6 (brain files) added 2026-04-19.
 - **§2–§7 Methodology Detail** — Drafted in English, will be refined as real projects expose gaps.
 - **Project templates** — Minimal but functional.
 - **Installer scripts** — Working for Windows (PowerShell) and Unix (bash).
+- **`plugin/sdcd/`** — Claude Code plugin with 7 skills + 6 agents. Early access, testable via `claude --plugin-dir`.
 
 This is an early-access repository. Expect edits.
 
