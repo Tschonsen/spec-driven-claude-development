@@ -1,0 +1,51 @@
+# <Project Name>
+
+Project-level rules and context. Claude loads this automatically alongside `~/.claude/CLAUDE.md`.
+
+## Project Context
+
+- **Purpose:** <what this project is for, 1-2 sentences>
+- **Status:** <current phase or state>
+- **Stack:**
+  - Language: <e.g., Python 3.11>
+  - Framework: <e.g., FastAPI>
+  - Storage: <e.g., Postgres 16, Redis>
+  - Key libraries: <list the ones Claude should know about>
+
+## State-Hygiene Tier
+
+Per SDCD §1.5, this project is at tier: **<Serious | Larger | Large with milestones>**
+
+Active state files:
+
+- [ ] `design/UR_PLAN.md`
+- [ ] `design/CURRENT_STATE.md`
+- [ ] `design/ARCHITECTURE.md`
+- [ ] `design/SESSION_HISTORY.md`
+- [ ] `design/AUDIT_LOG.md`
+
+## Project-Specific Overrides
+
+<List any SDCD rules (§1.1–§1.5) that this project overrides, with a reason.>
+
+<Example: "TDD exception for migration scripts — these are verified via integration, not unit tests.">
+
+<If none: "None — SDCD defaults apply.">
+
+## Gotchas
+
+<Things Claude should watch out for in this codebase.>
+
+<Example: "Large file: `src/components/Dashboard.tsx` (2200 lines) — never load whole; read by tab section.">
+
+<Example: "Database migrations are forward-only. Never write a 'down' migration.">
+
+## Conventions
+
+<Any project-specific conventions that deviate from language or framework defaults.>
+
+## Adopted Libraries
+
+<Libraries added during implementation that future Claude should know about.>
+
+- `<library-name>` — <why adopted, when>

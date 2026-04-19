@@ -1,0 +1,27 @@
+# Current State — <Project Name>
+
+*Last updated: <YYYY-MM-DD>*
+
+## Running
+
+- <feature or component currently functional>
+
+## In Progress
+
+- <current task — be specific about what is being built right now>
+
+## Known Issues
+
+- <bug or limitation not yet addressed>
+
+## Next Up
+
+- <immediate next step>
+
+## Recent Decisions
+
+- <significant decision from the last few sessions, with one-line rationale>
+
+---
+
+*Keep this file to ~60 lines. Session-by-session logs belong in `SESSION_HISTORY.md`, not here.*

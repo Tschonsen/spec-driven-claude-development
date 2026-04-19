@@ -1,0 +1,25 @@
+# Architecture — <Project Name>
+
+## File Inventory
+
+### <Module or folder name>
+
+- `path/to/file.ext` — <one-line purpose>. Key exports: <X, Y>. Depends on: <A, B>.
+- `path/to/other.ext` — <one-line purpose>.
+
+### <Next module>
+
+- ...
+
+## Cross-Module Dependencies
+
+- <Module A> uses <Module B> for <reason>.
+- Avoid: <circular or undesired import paths>.
+
+## Key Decisions
+
+- <Architectural decision> — <reason>. <Consequences>.
+
+---
+
+*Update this file when files are added or removed, or when dependencies shift. Not per-function-change.*
