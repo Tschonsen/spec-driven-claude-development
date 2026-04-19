@@ -19,12 +19,15 @@ Do **not** use this skill:
 
 ### Step 1 — Load upstream plans
 
-Read both `UR_PLAN.md` and `BACKEND_PLAN.md`. Key items:
+Read `UR_PLAN.md`, `BACKEND_PLAN.md`, and (if present) `DESIGN_SYSTEM.md`. If `DATA_PLAN.md` exists, skim it for entity names the UI will reference. Key items:
 
-- From Ur-Plan: success criteria that are user-facing, target devices / viewports.
-- From Backend-Plan: API contract (every call maps to a fetch in the frontend), auth flow (drives gated routes).
+- From Ur-Plan: user-facing success criteria, target devices / viewports.
+- From Backend-Plan: API contract (every call maps to a fetch), auth flow (drives gated routes).
+- From Design-System: target feel, tokens (colour / type / spacing / radius / motion), component visual language. The frontend plan **references** these tokens by name — it does not redeclare them.
 
-If either upstream file is missing, stop and direct to the correct preceding skill.
+If Ur-Plan or Backend-Plan is missing, stop and direct to the correct preceding skill.
+
+If `DESIGN_SYSTEM.md` is missing and the UI is non-trivial, recommend running `/sdcd:design-system-plan` first — skip only when the project explicitly uses an off-the-shelf design system (e.g., "100% shadcn defaults").
 
 ### Step 2 — Draft the Frontend-Plan
 
@@ -63,6 +66,12 @@ Form list. Per form: validation (client-side, server-side, which takes precedenc
 ## Error & empty states
 
 Every data-fetching component has three states. Name them explicitly — do not leave "error state TBD".
+
+## Visual language anchors
+
+**If `DESIGN_SYSTEM.md` exists**: per major route / screen, name the tokens that dominate (e.g., "dashboard uses `color.bg.surface` + `color.accent.primary` + `space.l` grid"). Don't redeclare tokens; reference them.
+
+**If not**: skip this section (but flag it as an open question).
 
 ## Accessibility
 

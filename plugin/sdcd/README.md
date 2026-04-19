@@ -3,13 +3,16 @@
 A Claude Code plugin that bundles the SDCD methodology into actionable skills and subagents. Once installed, you can drive a project from zero-code to shippable via namespaced slash-commands:
 
 ```
-/sdcd:new-project       → Ur-Plan + challenger trio
-/sdcd:backend-plan      → Backend plan + challengers
-/sdcd:frontend-plan     → Frontend plan + challengers
-/sdcd:audit             → Cross-cutting gate before implementation
-/sdcd:session-start     → Onboard a fresh session cheaply
-/sdcd:session-end       → Persist state + refresh brain files
-/sdcd:auto-brain        → Write or refresh a `<file>.brain` summary
+/sdcd:new-project           → Ur-Plan + challenger trio
+/sdcd:data-plan             → Data-Model plan (entities, storage, indexes)
+/sdcd:backend-plan          → Backend plan (references Data-Plan if present)
+/sdcd:design-system-plan    → Visual direction, tokens, component language
+/sdcd:frontend-plan         → Frontend plan (references Design-System + Backend)
+/sdcd:audit                 → Cross-cutting gate over all applicable plans
+/sdcd:adopt                 → Bootstrap SDCD into an existing, running project
+/sdcd:session-start         → Onboard a fresh session cheaply
+/sdcd:session-end           → Persist state + refresh brain files
+/sdcd:auto-brain            → Write or refresh a `<file>.brain` summary
 ```
 
 Plus specialised subagents that the skills dispatch on their own:
@@ -59,46 +62,71 @@ claude plugin list
 ## Typical flow on a new project
 
 ```
-User: "New project: messenger service for small teams, stack Python + FastAPI"
+User: "New project: messenger service for small teams, stack Python + FastAPI + React"
 
 /sdcd:new-project
-  → draft design/UR_PLAN.md
-  → challenger trio runs in parallel
-  → surface top 3 concerns, wait for user
+  → design/UR_PLAN.md + challenger trio
 
-User: "Address concerns 1 and 3, defer 2. Move on."
+/sdcd:data-plan
+  → design/DATA_PLAN.md (entities, storage, indexes) + challenger trio
 
 /sdcd:backend-plan
-  → draft design/BACKEND_PLAN.md from UR_PLAN
-  → challenger trio on backend plan
-  → surface concerns, wait
+  → design/BACKEND_PLAN.md (references Data-Plan) + challenger trio
+
+/sdcd:design-system-plan
+  → design/DESIGN_SYSTEM.md (target feel, tokens, component language) + challengers
 
 /sdcd:frontend-plan
-  → draft design/FRONTEND_PLAN.md
-  → challenger trio on frontend plan
+  → design/FRONTEND_PLAN.md (references Design-System + Backend) + challengers
 
 /sdcd:audit
-  → cross-cutting review
-  → GO / NO-GO verdict, wait
+  → cross-cutting review over all five plans → GO / NO-GO
 
-User: "GO. /sdcd:session-start"
+User: "GO."
+
+/sdcd:session-start
   → load CURRENT_STATE, active plan section, brain files
   → ready to code
 
-<implementation work — §1 rules + §1.6 brain files throughout>
+<implementation — §1 rules + §1.6 brain files throughout>
 
-User: "/sdcd:session-end"
+/sdcd:session-end
   → update state, session history, refresh brain files
 ```
+
+**Skip what doesn't apply:**
+
+- Backend-only / CLI → skip `design-system-plan` + `frontend-plan`.
+- Stateless tool → skip `data-plan`.
+- Pure static site → skip `data-plan` + `backend-plan`.
+
+`/sdcd:audit` detects what's applicable automatically (based on which plans exist) — you declare absences explicitly in the Ur-Plan's `## Non-goals`.
+
+## Adopting SDCD in an existing project
+
+If you want to introduce SDCD into a codebase that already has source, tests, and history:
+
+```
+/sdcd:adopt
+  → scans the repo (stack, tier, UI presence, persistent data)
+  → proposes a scaffold (design/, project CLAUDE.md, Ur-Plan stub)
+  → additive only (never modifies existing files)
+  → optionally backfills brain files across existing sources
+```
+
+The Ur-Plan stub is **reverse-engineered** from README + git log + code evidence and marked `(auto-generated — verify)`. You review and correct it before running challengers on it.
 
 ## Which skill does what to which file
 
 | Skill | Reads | Writes / updates |
 |---|---|---|
 | `new-project` | (user intent) | `design/UR_PLAN.md`, `design/CURRENT_STATE.md`, `design/` scaffolding |
-| `backend-plan` | `UR_PLAN.md` | `design/BACKEND_PLAN.md` |
-| `frontend-plan` | `UR_PLAN.md`, `BACKEND_PLAN.md` | `design/FRONTEND_PLAN.md` |
-| `audit` | all three plans | `design/AUDIT.md` |
+| `data-plan` | `UR_PLAN.md` | `design/DATA_PLAN.md` |
+| `backend-plan` | `UR_PLAN.md`, `DATA_PLAN.md` (if present) | `design/BACKEND_PLAN.md` |
+| `design-system-plan` | `UR_PLAN.md` | `design/DESIGN_SYSTEM.md` |
+| `frontend-plan` | `UR_PLAN.md`, `BACKEND_PLAN.md`, `DESIGN_SYSTEM.md` (if present) | `design/FRONTEND_PLAN.md` |
+| `audit` | all applicable plans | `design/AUDIT.md` |
+| `adopt` | existing repo state | additive scaffolding + Ur-Plan stub, no modifications |
 | `session-start` | `CURRENT_STATE.md`, active plan section, brain files | (nothing — onboarding only) |
 | `session-end` | git diff, plans | `CURRENT_STATE.md`, `SESSION_HISTORY.md` (if present), refreshes `.brain` files |
 | `auto-brain` | source file | `<source>.brain` |

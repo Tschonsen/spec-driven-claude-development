@@ -7,7 +7,16 @@ description: Run a large cross-cutting audit across the Ur-Plan, Backend-Plan, a
 
 ## Trigger
 
-All three plans exist (`UR_PLAN.md`, `BACKEND_PLAN.md`, `FRONTEND_PLAN.md`). User wants the big gate check before implementation. Phrases: "audit all plans", "are we ready to code?", "big pass".
+All **applicable** plans exist (`UR_PLAN.md` always; `DATA_PLAN.md`, `BACKEND_PLAN.md`, `DESIGN_SYSTEM.md`, `FRONTEND_PLAN.md` as relevant). User wants the big gate check before implementation. Phrases: "audit all plans", "are we ready to code?", "big pass".
+
+Applicable-plan matrix:
+
+- Any project: `UR_PLAN.md`.
+- Project with persistent state: `DATA_PLAN.md`.
+- Project with a server / API / CLI: `BACKEND_PLAN.md`.
+- Project with a UI: `DESIGN_SYSTEM.md` + `FRONTEND_PLAN.md`.
+
+Skip checks for plans the project doesn't need — but the user declares that explicitly ("no UI in this project") rather than silently omitting.
 
 Do **not** use this skill:
 
@@ -16,23 +25,31 @@ Do **not** use this skill:
 
 ## Procedure
 
-### Step 1 — Load all three plans
+### Step 1 — Load all applicable plans
 
-Read fully:
+Read fully, in order:
 
 - `design/UR_PLAN.md`
+- `design/DATA_PLAN.md` (if the project has persistent state)
 - `design/BACKEND_PLAN.md`
-- `design/FRONTEND_PLAN.md`
+- `design/DESIGN_SYSTEM.md` (if the project has a UI)
+- `design/FRONTEND_PLAN.md` (if the project has a UI)
 
 Also check for a `CURRENT_STATE.md` — absent means the project hasn't been scaffolded yet; stop and tell the user to finish setup.
 
+If a plan is expected per the matrix but missing, stop and direct the user to the matching skill.
+
 ### Step 2 — Trace-link check
 
-Every design decision in Backend-Plan and Frontend-Plan should anchor in something upstream. Walk each section:
+Every design decision should anchor in something upstream. Walk each layer in dependency order:
 
-- **Backend-Plan → Ur-Plan:** every API endpoint traces to a success criterion or a non-goal carve-out. Orphan endpoints are flagged.
-- **Frontend-Plan → Backend-Plan:** every fetch traces to a contract entry. Every form traces to a mutation.
-- **Both → Ur-Plan tech stack:** no stack drift ("Ur-Plan says Python, Backend-Plan mentions Node" = hard flag).
+- **Data-Plan → Ur-Plan:** every entity traces to something named (or clearly implied) in Ur-Plan goals or success criteria. Orphan entities are flagged.
+- **Backend-Plan → Data-Plan:** every mentioned entity in API contract exists in Data-Plan. Every storage reference matches Data-Plan's storage choice.
+- **Backend-Plan → Ur-Plan:** every API endpoint traces to a success criterion or non-goal carve-out. Orphans flagged.
+- **Design-System → Ur-Plan:** target feel is consistent with the stated audience / platform / accessibility mandate.
+- **Frontend-Plan → Backend-Plan:** every fetch traces to a contract entry; every form traces to a mutation.
+- **Frontend-Plan → Design-System:** every component's visual-language anchor references existing tokens (no ad-hoc colours, spacings, radii).
+- **All → Ur-Plan tech stack:** no stack drift ("Ur-Plan says Python, Backend-Plan mentions Node" = hard flag).
 
 ### Step 3 — Contradictions check
 

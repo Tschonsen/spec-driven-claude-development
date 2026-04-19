@@ -17,15 +17,16 @@ Do **not** use this skill:
 
 ## Procedure
 
-### Step 1 — Load the Ur-Plan
+### Step 1 — Load upstream plans
 
-Read `design/UR_PLAN.md` completely. Key items to extract:
+Read `design/UR_PLAN.md` completely. If `design/DATA_PLAN.md` exists, read that too. Key items:
 
-- Success criteria (these drive API contract and performance targets).
-- Tech stack (language + storage + framework — anchors the concrete design).
-- Open questions (any backend-shaped ones get resolved or escalated here).
+- From Ur-Plan: success criteria (drive API contract and performance targets), tech stack, open questions.
+- From Data-Plan (if present): entities, relationships, storage choices, indexes, retention rules. The backend API contract is built **on top of** this data model — don't duplicate it.
 
 If `UR_PLAN.md` is missing, stop and direct the user to `/sdcd:new-project`.
+
+If the project has persistent data but no `DATA_PLAN.md`, recommend running `/sdcd:data-plan` first — skip only if the user confirms data is trivial enough to inline here.
 
 ### Step 2 — Draft the Backend-Plan
 
@@ -38,7 +39,9 @@ _Derived from UR_PLAN.md draft {n} — {today}_
 
 ## Domain model
 
-The nouns and their relationships. Start with 3–7 core entities; more than 10 usually means the scope is too broad for one plan.
+**If `DATA_PLAN.md` exists**, this section is one line: "See `design/DATA_PLAN.md`." Do not duplicate entity / relationship / storage content here.
+
+**If no `DATA_PLAN.md`**, briefly list the 3–7 core entities and relationships here. More than 10 entities means you should have run `/sdcd:data-plan` instead.
 
 ## API contract
 
@@ -46,7 +49,9 @@ Endpoint / RPC / message list. Per endpoint: method + path, request shape, respo
 
 ## Storage
 
-Where data lives (SQL table / NoSQL collection / blob store / cache). Per entity: the storage target, key pattern, and why that store was chosen. Call out indexes needed to hit success criteria.
+**If `DATA_PLAN.md` exists**, this section is one line: "See `design/DATA_PLAN.md` — storage choices + indexes."
+
+**If not**, per entity: the storage target, key pattern, and why that store was chosen. Call out indexes needed to hit success criteria.
 
 ## Auth & authorisation
 
